@@ -24,7 +24,7 @@ export default function Hero({ lang, onContactClick }: HeroProps) {
           priority
           unoptimized={true}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-950/80 to-zinc-950"></div>
+        <div className="absolute inset-0 bg-linear-to-b from-zinc-950 via-zinc-950/80 to-zinc-950"></div>
       </div>
 
       <div className="relative z-10 max-w-4xl mx-auto text-center">
@@ -38,7 +38,7 @@ export default function Hero({ lang, onContactClick }: HeroProps) {
 
         <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold mb-4 md:mb-6 leading-tight">
           {t.titleStart} <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
+          <span className="text-transparent bg-clip-text bg-linear-to-r from-blue-400 to-emerald-400">
             {t.titleHighlight}
           </span>{" "}
           {t.titleEnd}

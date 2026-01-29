@@ -2,7 +2,6 @@
 
 import { useEffect } from "react";
 import { useLanguage } from "./context/LanguageContext";
-import { useHireMe } from "./hooks/useHireMe";
 
 import Header from "./components/Header";
 import Hero from "./components/Hero";
@@ -12,7 +11,6 @@ import TimelineSection from "./components/TimelineSection";
 
 export default function Portfolio() {
   const { lang } = useLanguage();
-  const { handleHireMe } = useHireMe(lang);
 
   useEffect(() => {
     document.body.style.overflowX = "hidden";
@@ -20,9 +18,11 @@ export default function Portfolio() {
 
   return (
     <main className="min-h-screen bg-zinc-950 text-zinc-200 font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden">
-      <Header onContactClick={handleHireMe} />
+      <Header />
 
-      <Hero lang={lang} onContactClick={handleHireMe} />
+      <Hero lang={lang} onContactClick={function (): void {
+        throw new Error("Function not implemented.");
+      } } />
 
       <TimelineSection lang={lang}/>
       <PortfolioGrid lang={lang} />
