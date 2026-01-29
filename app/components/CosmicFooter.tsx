@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/purity */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useRef, useMemo } from "react";
@@ -79,7 +81,7 @@ export default function CosmicFooter() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 mb-4">
+          <h2 className="text-4xl md:text-6xl font-bold bg-clip-text text-transparent bg-linear-to-r from-purple-400 via-pink-500 to-red-500 mb-4">
             هل نبدأ الرحلة القادمة؟
           </h2>
           <p className="text-slate-400 text-lg mb-8 max-w-lg mx-auto">
@@ -92,7 +94,7 @@ export default function CosmicFooter() {
                 تواصل معي{" "}
                 <FaPaperPlane className="group-hover:translate-x-1 transition-transform" />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-linear-to-r from-purple-400 to-pink-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
 
             <div className="flex gap-4 mt-4 md:mt-0">
@@ -103,7 +105,7 @@ export default function CosmicFooter() {
         </motion.div>
       </div>
 
-      <div className="absolute top-0 left-0 w-full h-24 bg-gradient-to-b from-slate-950 to-transparent z-20 pointer-events-none"></div>
+      <div className="absolute top-0 left-0 w-full h-24 bg-linear-to-b from-slate-950 to-transparent z-20 pointer-events-none"></div>
     </section>
   );
 }

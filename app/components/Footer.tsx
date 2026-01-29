@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { FaGithub, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 export default function Footer() {
@@ -26,7 +26,7 @@ export default function Footer() {
 
   return (
     <footer className="relative bg-zinc-950 pt-16 pb-8 px-6 border-t border-zinc-900 overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-zinc-800/10 blur-[100px] rounded-full pointer-events-none"></div>
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-zinc-800/10 blur-[100px] rounded-full pointer-events-none"></div>
 
       <div className="max-w-4xl mx-auto relative z-10 text-center">
         <div className="mb-12">
@@ -62,7 +62,7 @@ export default function Footer() {
           </a>
         </div>
 
-        <div className="h-px w-full bg-gradient-to-r from-transparent via-zinc-800 to-transparent mb-8"></div>
+        <div className="h-px w-full bg-linear-to-r from-transparent via-zinc-800 to-transparent mb-8"></div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-4">
@@ -101,24 +101,4 @@ export default function Footer() {
   );
 }
 
-function SocialLink({
-  href,
-  icon,
-  label,
-}: {
-  href: string;
-  icon: React.ReactNode;
-  label: string;
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700 hover:bg-zinc-800 transition-all duration-300"
-    >
-      {icon}
-    </a>
-  );
-}
+

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 export default function BackgroundMusic() {
-  const [isMusicActive, setIsMusicActive] = useState(false);
+  const [, setIsMusicActive] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {

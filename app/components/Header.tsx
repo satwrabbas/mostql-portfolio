@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -5,12 +6,9 @@ import Image from "next/image";
 import { FaGlobe, FaVolumeMute } from "react-icons/fa";
 import { useLanguage } from "@/app/context/LanguageContext";
 
-interface HeaderProps {
-  onContactClick?: () => void;
-}
 
-export default function Header({ onContactClick }: HeaderProps) {
-  const [scrolled, setScrolled] = useState(false);
+export default function Header() {
+  const [, setScrolled] = useState(false);
   const [isMusicActive, setIsMusicActive] = useState(false);
   const { lang, setLang } = useLanguage();
 
@@ -71,11 +69,11 @@ export default function Header({ onContactClick }: HeaderProps) {
             }`}
           >
             {isMusicActive ? (
-              <div className="flex gap-[2px] items-end h-3">
-                <span className="w-[3px] bg-blue-400 animate-[music-bar_0.8s_infinite]"></span>
-                <span className="w-[3px] bg-blue-400 animate-[music-bar_1.2s_infinite]"></span>
-                <span className="w-[3px] bg-blue-400 animate-[music-bar_0.6s_infinite]"></span>
-                <span className="w-[3px] bg-blue-400 animate-[music-bar_1s_infinite]"></span>
+              <div className="flex gap-0.5 items-end h-3">
+                <span className="w-0.75 bg-blue-400 animate-[music-bar_0.8s_infinite]"></span>
+                <span className="w-0.75 bg-blue-400 animate-[music-bar_1.2s_infinite]"></span>
+                <span className="w-0.75 bg-blue-400 animate-[music-bar_0.6s_infinite]"></span>
+                <span className="w-0.75 bg-blue-400 animate-[music-bar_1s_infinite]"></span>
               </div>
             ) : (
               <FaVolumeMute size={16} />
