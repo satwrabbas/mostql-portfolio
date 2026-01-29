@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
@@ -19,64 +20,36 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
     ? project.description_ar || project.description_en
     : project.description_en || project.description_ar;
 
-  const hasMobileImage = !!project.image_mobile_url;
-
   return (
     <div className="group relative bg-zinc-900 border border-zinc-800 rounded-xl md:rounded-2xl overflow-hidden hover:border-zinc-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50 flex flex-col">
-      {/* 
-        Main Card Link Layer (z-10)
-        يغطي كامل الكارد ليكون قابلاً للنقر
-      */}
       <Link
         href={`/project/${project.id}`}
         className="absolute inset-0 z-10"
         aria-label={title}
       />
 
-      <div className="relative w-full border-b border-zinc-800 bg-zinc-950">
-        {hasMobileImage && (
-          <div className="block md:hidden aspect-[9/16] relative">
-            <Image
-              src={project.image_mobile_url!}
-              alt={title}
-              fill
-              className="object-cover object-top"
-              unoptimized={true}
-            />
+      <div className="relative w-full aspect-video border-b border-zinc-800 bg-zinc-950 overflow-hidden">
+        {project.image_url ? (
+          <Image
+            src={project.image_url}
+            alt={title}
+            fill
+            className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
+            unoptimized={true}
+          />
+        ) : (
+          <div className="flex items-center justify-center h-full text-zinc-600">
+            No Preview
           </div>
         )}
 
-        <div
-          className={`${
-            hasMobileImage ? "hidden md:block" : "block"
-          } aspect-video relative`}
-        >
-          {project.image_url ? (
-            <Image
-              src={project.image_url}
-              alt={title}
-              fill
-              className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
-              unoptimized={true}
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full text-zinc-600">
-              No Preview
-            </div>
-          )}
-        </div>
-
-        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors pointer-events-none" />
+        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none" />
       </div>
 
       <div className="p-4 md:p-6 relative pointer-events-none flex-1 flex flex-col">
         <h3 className="text-lg md:text-xl font-bold text-zinc-100 mb-1 md:mb-2 group-hover:text-white transition-colors truncate">
           {title}
         </h3>
-
-        <p className="text-zinc-400 text-sm mb-3 md:mb-5 line-clamp-2 leading-relaxed">
-          {description}
-        </p>
 
         <div className="flex flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6 mt-auto">
           {project.tags?.slice(0, 3).map((tag, index) => (
@@ -89,10 +62,6 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
           ))}
         </div>
 
-        {/* 
-          Action Buttons Layer (z-20)
-          أزرار تفاعلية تعلو فوق رابط الكارد الشفاف
-        */}
         <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-zinc-800 relative z-20 pointer-events-auto">
           {project.demo_url && (
             <a

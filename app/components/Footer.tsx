@@ -52,13 +52,13 @@ export default function Footer() {
           <p className="text-zinc-400 text-lg mb-8">{txt.sub}</p>
 
           <a
-            href="https://wa.me/+963938457732"
+            href="https://mostaql.com/"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-white text-zinc-950 rounded-full font-bold text-lg hover:scale-105 transition-transform duration-300 shadow-xl shadow-white/5"
           >
             <FaWhatsapp className="text-2xl text-emerald-600" />
-            <span>+963 938 457 732</span>
+            <span> رابط التواصل على منصة مستقل</span>
           </a>
         </div>
 
@@ -88,18 +88,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex gap-4">
-            <SocialLink
-              href="https://github.com"
-              icon={<FaGithub />}
-              label="Github"
-            />
-            <SocialLink
-              href="mailto:satwrabbas@gmail.com"
-              icon={<FaEnvelope />}
-              label="Email"
-            />
-          </div>
+          
         </div>
 
         <div className="mt-8 text-center md:text-right">

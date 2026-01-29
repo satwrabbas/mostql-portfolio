@@ -96,19 +96,16 @@ export default function TimelineSection({ lang }: TimelineProps) {
   return (
     <section
       ref={containerRef}
-      // تم تقليل الـ padding الرأسي للجوال (py-16)
       className="relative py-16 md:py-24 bg-zinc-950 overflow-hidden"
     >
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-blue-500/5 blur-[120px] rounded-full pointer-events-none" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
-        {/* تم تقليل المارجن السفلي للعنوان (mb-12) */}
         <div className="text-center mb-12 md:mb-20">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            // تم تصغير حجم الخط للجوال (text-3xl)
             className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-zinc-500 pb-2"
           >
             {lang === "ar" ? "رحلتنا" : "Our Journey"}
@@ -127,7 +124,6 @@ export default function TimelineSection({ lang }: TimelineProps) {
         </div>
 
         <div className="relative">
-          {/* الخط الرأسي: يبقى على اليسار في الجوال وينتصف في الشاشات الكبيرة */}
           <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-0.5 bg-zinc-800 -translate-x-1/2" />
 
           <motion.div
@@ -135,7 +131,6 @@ export default function TimelineSection({ lang }: TimelineProps) {
             className="absolute left-4 md:left-1/2 top-0 w-0.5 bg-gradient-to-b from-blue-500 via-emerald-500 to-purple-500 -translate-x-1/2 shadow-[0_0_15px_rgba(59,130,246,0.5)]"
           />
 
-          {/* تم تقليل المسافة الرأسية بين العناصر (space-y-8) */}
           <div className="space-y-8 md:space-y-24">
             {timelineData.map((item, index) => {
               const isEven = index % 2 === 0;
@@ -152,7 +147,6 @@ export default function TimelineSection({ lang }: TimelineProps) {
                     isEven ? "md:flex-row-reverse" : ""
                   }`}
                 >
-                  {/* الأيقونة الدائرية */}
                   <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-8 h-8 md:w-10 md:h-10 rounded-full bg-zinc-900 border border-zinc-700 z-20 shadow-xl group">
                     <div
                       className={`w-2 h-2 md:w-3 md:h-3 rounded-full bg-gradient-to-r ${item.color} ${isNow ? "animate-pulse" : ""}`}
@@ -165,10 +159,8 @@ export default function TimelineSection({ lang }: TimelineProps) {
 
                   <div className="hidden md:block w-1/2" />
 
-                  {/* حاوية المحتوى: تم ضبط الهوامش والمحاذاة للجوال */}
                   <div
                     className={`w-full md:w-1/2 pl-12 md:pl-0 ${
-                      // في الجوال (الأفتراضي) النص دائماً يسار. في الشاشات الكبيرة نطبق التبادل
                       isEven
                         ? "md:pr-12 md:text-right text-left"
                         : "md:pl-12 text-left"
@@ -202,7 +194,6 @@ export default function TimelineSection({ lang }: TimelineProps) {
                       )}
 
                       <h3
-                        // تصغير عنوان البطاقة للجوال
                         className={`text-lg md:text-xl font-bold text-white mb-2 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r ${item.color} transition-all`}
                       >
                         {item.title[lang]}

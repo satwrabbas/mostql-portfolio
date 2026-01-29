@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Tajawal } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./context/LanguageContext";
+import MouseCursor from "./components/MouseCursor";
+import FluidBackground from "./components/MouseCursor";
+import MouseTrail from "./components/MouseTrail";
+import MouseGlow from "./components/MouseGlow";
+import BackgroundMusic from "./components/BackgroundMusic";
 
 const tajawal = Tajawal({
   subsets: ["arabic"],
@@ -29,6 +34,8 @@ export default function RootLayout({
       <body
         className={`${tajawal.className} antialiased bg-slate-950 text-slate-50`}
       >
+        <BackgroundMusic /> 
+        <MouseGlow/>
         <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
