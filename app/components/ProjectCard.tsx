@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { Project } from "../types/project";
+import { useTheme } from "@/app/context/ThemeContext"; // 1. استيراد الثيم
 
 interface ProjectProps {
   project: Project;
@@ -10,6 +11,9 @@ interface ProjectProps {
 }
 
 export default function ProjectCard({ project, lang }: ProjectProps) {
+  // 2. استخدام هوك الثيم
+  const { themeColors, isDarkMode } = useTheme();
+  
   const isAr = lang === "ar";
 
   const title = isAr
@@ -21,14 +25,27 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
     : project.description_en || project.description_ar;
 
   return (
-    <div className="group relative bg-zinc-900 border border-zinc-800 rounded-xl md:rounded-2xl overflow-hidden hover:border-zinc-600 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/50 flex flex-col">
+    <div 
+      className={`group relative border rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 flex flex-col
+      hover:-translate-y-1 hover:shadow-2xl
+      /* 3. تطبيق الألوان الديناميكية */
+      ${themeColors.border}
+      ${isDarkMode 
+        ? "bg-white/5 hover:bg-white/10 shadow-black/50" 
+        : "bg-white hover:bg-white shadow-zinc-200/50 hover:shadow-zinc-300/50"
+      }
+      `}
+    >
       <Link
         href={`/project/${project.id}`}
         className="absolute inset-0 z-10"
         aria-label={title}
       />
 
-      <div className="relative w-full aspect-video border-b border-zinc-800 bg-zinc-950 overflow-hidden">
+      <div className={`relative w-full aspect-video border-b overflow-hidden
+        ${themeColors.border}
+        ${isDarkMode ? "bg-black/20" : "bg-zinc-100"}
+      `}>
         {project.image_url ? (
           <Image
             src={project.image_url}
@@ -38,16 +55,18 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
             unoptimized={true}
           />
         ) : (
-          <div className="flex items-center justify-center h-full text-zinc-600">
+          <div className={`flex items-center justify-center h-full ${themeColors.textSub}`}>
             No Preview
           </div>
         )}
 
-        <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors pointer-events-none" />
+        <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors pointer-events-none" />
       </div>
 
       <div className="p-4 md:p-6 relative pointer-events-none flex-1 flex flex-col">
-        <h3 className="text-lg md:text-xl font-bold text-zinc-100 mb-1 md:mb-2 group-hover:text-white transition-colors truncate">
+        <h3 className={`text-lg md:text-xl font-bold mb-1 md:mb-2 transition-colors truncate
+          ${themeColors.textMain}
+        `}>
           {title}
         </h3>
 
@@ -55,20 +74,32 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
           {project.tags?.slice(0, 3).map((tag, index) => (
             <span
               key={index}
-              className="px-2 py-0.5 md:px-2.5 md:py-1 bg-zinc-800 border border-zinc-700 text-zinc-300 text-[10px] md:text-xs rounded-md"
+              className={`px-2 py-0.5 md:px-2.5 md:py-1 border text-[10px] md:text-xs rounded-md transition-colors
+                ${isDarkMode 
+                  ? "bg-white/5 border-white/10 text-zinc-300" 
+                  : "bg-black/5 border-black/5 text-zinc-600"
+                }
+              `}
             >
               {tag}
             </span>
           ))}
         </div>
 
-        <div className="flex items-center justify-between pt-3 md:pt-4 border-t border-zinc-800 relative z-20 pointer-events-auto">
+        <div className={`flex items-center justify-between pt-3 md:pt-4 border-t relative z-20 pointer-events-auto
+           ${themeColors.border}
+        `}>
           {project.demo_url && (
             <a
               href={project.demo_url}
               target="_blank"
               rel="noreferrer"
-              className="text-[10px] md:text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1.5 bg-emerald-500/10 px-2.5 py-1 md:px-3 md:py-1.5 rounded-full hover:bg-emerald-500/20 transition-all cursor-pointer"
+              className={`text-[10px] md:text-xs font-bold flex items-center gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 rounded-full transition-all cursor-pointer
+                ${isDarkMode 
+                  ? "text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 hover:text-emerald-300" 
+                  : "text-emerald-700 bg-emerald-100 hover:bg-emerald-200" // لون أغمق للوضع الفاتح
+                }
+              `}
             >
               <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               {isAr ? "معاينة" : "Demo"}
@@ -81,7 +112,9 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
                 href={project.github_url}
                 target="_blank"
                 rel="noreferrer"
-                className="text-zinc-400 hover:text-white transition-colors cursor-pointer"
+                className={`transition-colors cursor-pointer
+                  ${themeColors.textSub} hover:${themeColors.textMain}
+                `}
               >
                 <FaGithub className="text-base md:text-lg" />
               </a>

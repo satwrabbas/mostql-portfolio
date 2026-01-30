@@ -4,6 +4,8 @@ import "./globals.css";
 import { LanguageProvider } from "./context/LanguageContext";
 import MouseGlow from "./components/MouseGlow";
 import BackgroundMusic from "./components/BackgroundMusic";
+import { ThemeProvider } from "./context/ThemeContext";
+
 
 const tajawal = Tajawal({
   subsets: ["arabic"],
@@ -33,7 +35,9 @@ export default function RootLayout({
       >
         <BackgroundMusic /> 
         <MouseGlow/>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider> <ThemeProvider> 
+            {children}
+          </ThemeProvider></LanguageProvider>
       </body>
     </html>
   );

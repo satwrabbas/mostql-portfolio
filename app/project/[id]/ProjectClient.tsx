@@ -9,16 +9,16 @@ import {
   FaGithub,
   FaExternalLinkAlt,
   FaArrowLeft,
-  FaGlobe,
 } from "react-icons/fa";
 import { useLanguage } from "@/app/context/LanguageContext";
+import { useTheme } from "@/app/context/ThemeContext";
 
 const translations = {
   ar: {
     techStack: "التقنيات المستخدمة",
     liveDemo: "معاينة حية",
     viewCode: "الكود المصدري",
-    goBack: "العودة",
+    goBack: "العودة للمشاريع",
     loading: "جاري تحميل تفاصيل المشروع...",
     notFound: "المشروع غير موجود.",
   },
@@ -26,7 +26,7 @@ const translations = {
     techStack: "Technology Stack",
     liveDemo: "Live Demo",
     viewCode: "Source Code",
-    goBack: "Back",
+    goBack: "Back to Projects",
     loading: "Loading project details...",
     notFound: "Project not found.",
   },
@@ -35,22 +35,20 @@ const translations = {
 export default function ProjectClient({ id }: { id: string }) {
   const [project, setProject] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const { lang, setLang } = useLanguage();
+  const { lang } = useLanguage();
+  
+  // 1. قمنا بإضافة colorPalette هنا للتحكم في لون الإضاءة
+  const { themeColors, isDarkMode, colorPalette } = useTheme();
+  
   const router = useRouter();
   const supabase = createClient();
   const t = translations[lang];
 
   useEffect(() => {
     if (!id) return;
-
     async function fetchProject() {
       setLoading(true);
-      const { data, error } = await supabase
-        .from("projects")
-        .select("*")
-        .eq("id", id)
-        .single();
-
+      const { data, error } = await supabase.from("projects").select("*").eq("id", id).single();
       if (error || !data) {
         console.error("Error fetching project:", error);
         setProject(null);
@@ -59,7 +57,6 @@ export default function ProjectClient({ id }: { id: string }) {
       }
       setLoading(false);
     }
-
     fetchProject();
   }, [id, supabase]);
 
@@ -67,16 +64,33 @@ export default function ProjectClient({ id }: { id: string }) {
     document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
   }, [lang]);
 
+  // 2. دالة تحديد لون التوهج (نفس المستخدمة في الأقسام الأخرى)
+  const getGlowColor = () => {
+    if (isDarkMode) {
+      switch (colorPalette) {
+        case "slate": return "bg-blue-500/10";
+        case "stone": return "bg-orange-500/10";
+        default: return "bg-zinc-500/10";
+      }
+    } else {
+      switch (colorPalette) {
+        case "slate": return "bg-blue-400/30";
+        case "stone": return "bg-orange-400/30";
+        default: return "bg-zinc-400/30";
+      }
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center z-50">
+      <div className={`min-h-screen flex flex-col items-center justify-center z-50 transition-colors duration-500 ${themeColors.bg}`}>
         <div className="relative flex items-center justify-center">
           <div className="absolute w-16 h-16 md:w-20 md:h-20 border-4 border-blue-500/20 rounded-full"></div>
           <div className="w-16 h-16 md:w-20 md:h-20 border-4 border-transparent border-t-blue-500 rounded-full animate-spin"></div>
           <div className="absolute w-3 h-3 md:w-4 md:h-4 bg-blue-400 rounded-full animate-pulse shadow-[0_0_15px_rgba(59,130,246,0.8)]"></div>
         </div>
         <div className="mt-8 flex flex-col items-center gap-2">
-          <h2 className="text-lg md:text-xl font-bold text-white tracking-wider animate-pulse">
+          <h2 className={`text-lg md:text-xl font-bold tracking-wider animate-pulse ${themeColors.textMain}`}>
             {lang === "ar" ? "جاري التحميل..." : "Loading..."}
           </h2>
         </div>
@@ -86,11 +100,11 @@ export default function ProjectClient({ id }: { id: string }) {
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center text-white gap-4">
+      <div className={`min-h-screen flex flex-col items-center justify-center gap-4 ${themeColors.bg} ${themeColors.textMain}`}>
         <p>{t.notFound}</p>
         <button
           onClick={() => router.push("/")}
-          className="px-6 py-2 bg-blue-600 rounded-lg"
+          className={`px-6 py-2 rounded-lg font-bold ${themeColors.accent} ${themeColors.accentText}`}
         >
           {t.goBack}
         </button>
@@ -103,32 +117,35 @@ export default function ProjectClient({ id }: { id: string }) {
     lang === "ar" ? project.description_ar : project.description_en;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-200 font-sans selection:bg-blue-500 selection:text-white pb-12 md:pb-20">
-      <header className="py-3 md:py-4  sticky top-0 z-50  ">
-        <div className="max-w-5xl mx-auto px-4 md:px-6 flex justify-between items-center">
-          <button
-            onClick={() => router.push("/")}
-            className="flex items-center gap-2 text-zinc-400 hover:text-white transition-colors text-sm md:text-base"
+    <div 
+      className={`min-h-screen font-sans selection:bg-blue-500 selection:text-white pb-12 md:pb-20 transition-colors duration-500 relative overflow-hidden
+      ${themeColors.bg} ${themeColors.textSub}`}
+    >
+      {/* 3. عنصر الإضاءة الخلفية (Glow) */}
+      <div 
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] md:w-[1000px] md:h-[1000px] blur-[120px] rounded-full pointer-events-none transition-colors duration-1000
+        ${getGlowColor()}`}
+      />
+
+      {/* 4. تم إضافة relative و z-10 للمحتوى ليكون فوق الإضاءة */}
+      <main className="max-w-5xl mx-auto px-4 md:px-6 pt-24 md:pt-32 relative z-10">
+        <div className="mb-8 md:mb-12">
+           <button
+            onClick={() => router.push("/#portfolio")}
+            className={`flex items-center gap-2 transition-colors text-sm md:text-base
+              ${themeColors.textSub} hover:${themeColors.textMain}`}
           >
             <FaArrowLeft className={lang === "ar" ? "rotate-180" : ""} />
             <span>{t.goBack}</span>
           </button>
-          <button
-            onClick={() => setLang(lang === "ar" ? "en" : "ar")}
-            className="flex items-center gap-2 px-3 py-1.5 md:px-3 md:py-2 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 text-xs font-medium transition-all text-zinc-300"
-          >
-            <FaGlobe className="text-blue-400" />
-            <span className="uppercase">{lang === "ar" ? "EN" : "عربي"}</span>
-          </button>
         </div>
-      </header>
 
-      <main className="max-w-5xl mx-auto px-4 md:px-6 pt-8 md:pt-16">
-        <h1 className="text-3xl md:text-6xl font-bold text-center mb-6 md:mb-12 bg-clip-text text-transparent bg-linear-to-r from-blue-400 to-emerald-400 leading-tight">
+        <h1 className="text-3xl md:text-6xl font-bold text-center mb-6 md:mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-emerald-400 leading-tight">
           {title}
         </h1>
 
-        <div className="relative w-full aspect-video mb-8 md:mb-16 bg-zinc-900 border border-zinc-800 shadow-2xl shadow-black/50 rounded-xl overflow-hidden group">
+        <div className={`relative w-full aspect-video mb-8 md:mb-16 border shadow-2xl rounded-xl overflow-hidden group
+          ${themeColors.border} ${isDarkMode ? "bg-black/20 shadow-black/50" : "bg-zinc-100 shadow-zinc-200/50"}`}>
           <Image
             src={project.image_url}
             alt={title}
@@ -137,28 +154,27 @@ export default function ProjectClient({ id }: { id: string }) {
             unoptimized={true}
             priority
           />
-
-          <div className="absolute inset-0 bg-linear-to-t from-zinc-950/20 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 md:gap-16">
           <div className="lg:col-span-2">
-            <p className="text-zinc-300 text-base md:text-lg leading-relaxed whitespace-pre-line">
+            <p className="text-base md:text-lg leading-relaxed whitespace-pre-line">
               {description}
             </p>
           </div>
 
           <div className="space-y-8">
-            <div className="bg-zinc-900/30 p-6 rounded-2xl border border-zinc-800/50">
-              <h3 className="text-lg md:text-xl font-bold text-white mb-4 border-b border-zinc-800 pb-2">
+            <div className={`p-6 rounded-2xl border ${isDarkMode ? 'bg-white/5 border-white/10' : 'bg-black/5 border-black/5'}`}>
+              <h3 className={`text-lg md:text-xl font-bold mb-4 border-b pb-2 ${themeColors.textMain} ${themeColors.border}`}>
                 {t.techStack}
               </h3>
               <div className="flex flex-wrap gap-2 md:gap-3">
                 {project.tags?.map((tag: string, index: number) => (
                   <span
                     key={index}
-                    className="px-3 py-1 bg-zinc-800/50 border border-zinc-700/50 text-zinc-400 text-xs md:text-sm rounded-lg hover:text-white transition-colors"
-                  >
+                    className={`px-3 py-1 border text-xs md:text-sm rounded-lg
+                      ${isDarkMode ? 'bg-white/5 border-white/10 text-zinc-300' : 'bg-black/5 border-black/5 text-zinc-600'}`}>
                     {tag}
                   </span>
                 ))}
@@ -171,8 +187,7 @@ export default function ProjectClient({ id }: { id: string }) {
                   href={project.demo_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-white text-sm md:text-base shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-1"
-                >
+                  className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl font-bold text-white text-sm md:text-base shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-1">
                   <FaExternalLinkAlt /> {t.liveDemo}
                 </a>
               )}
@@ -181,8 +196,8 @@ export default function ProjectClient({ id }: { id: string }) {
                   href={project.github_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-zinc-800 hover:bg-zinc-700 rounded-xl font-bold text-white text-sm md:text-base transition-all border border-zinc-700 hover:-translate-y-1"
-                >
+                  className={`w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-bold text-sm md:text-base transition-all border hover:-translate-y-1
+                    ${themeColors.border} ${isDarkMode ? 'bg-white/10 text-white hover:bg-white/20' : 'bg-black/5 text-black hover:bg-black/10'}`}>
                   <FaGithub /> {t.viewCode}
                 </a>
               )}
