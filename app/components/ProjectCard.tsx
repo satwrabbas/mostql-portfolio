@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { Project } from "../types/project";
-import { useTheme } from "@/app/context/ThemeContext"; // 1. استيراد الثيم
+import { useTheme } from "@/app/context/ThemeContext";
 
 interface ProjectProps {
   project: Project;
@@ -11,28 +11,25 @@ interface ProjectProps {
 }
 
 export default function ProjectCard({ project, lang }: ProjectProps) {
-  // 2. استخدام هوك الثيم
   const { themeColors, isDarkMode } = useTheme();
-  
+
   const isAr = lang === "ar";
 
   const title = isAr
     ? project.title_ar || project.title_en
     : project.title_en || project.title_ar;
 
-  const description = isAr
-    ? project.description_ar || project.description_en
-    : project.description_en || project.description_ar;
 
   return (
-    <div 
+    <div
       className={`group relative border rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 flex flex-col
       hover:-translate-y-1 hover:shadow-2xl
-      /* 3. تطبيق الألوان الديناميكية */
+      
       ${themeColors.border}
-      ${isDarkMode 
-        ? "bg-white/5 hover:bg-white/10 shadow-black/50" 
-        : "bg-white hover:bg-white shadow-zinc-200/50 hover:shadow-zinc-300/50"
+      ${
+        isDarkMode
+          ? "bg-white/5 hover:bg-white/10 shadow-black/50"
+          : "bg-white hover:bg-white shadow-zinc-200/50 hover:shadow-zinc-300/50"
       }
       `}
     >
@@ -42,10 +39,12 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
         aria-label={title}
       />
 
-      <div className={`relative w-full aspect-video border-b overflow-hidden
+      <div
+        className={`relative w-full aspect-video border-b overflow-hidden
         ${themeColors.border}
         ${isDarkMode ? "bg-black/20" : "bg-zinc-100"}
-      `}>
+      `}
+      >
         {project.image_url ? (
           <Image
             src={project.image_url}
@@ -55,7 +54,9 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
             unoptimized={true}
           />
         ) : (
-          <div className={`flex items-center justify-center h-full ${themeColors.textSub}`}>
+          <div
+            className={`flex items-center justify-center h-full ${themeColors.textSub}`}
+          >
             No Preview
           </div>
         )}
@@ -64,9 +65,11 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
       </div>
 
       <div className="p-4 md:p-6 relative pointer-events-none flex-1 flex flex-col">
-        <h3 className={`text-lg md:text-xl font-bold mb-1 md:mb-2 transition-colors truncate
+        <h3
+          className={`text-lg md:text-xl font-bold mb-1 md:mb-2 transition-colors truncate
           ${themeColors.textMain}
-        `}>
+        `}
+        >
           {title}
         </h3>
 
@@ -75,9 +78,10 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
             <span
               key={index}
               className={`px-2 py-0.5 md:px-2.5 md:py-1 border text-[10px] md:text-xs rounded-md transition-colors
-                ${isDarkMode 
-                  ? "bg-white/5 border-white/10 text-zinc-300" 
-                  : "bg-black/5 border-black/5 text-zinc-600"
+                ${
+                  isDarkMode
+                    ? "bg-white/5 border-white/10 text-zinc-300"
+                    : "bg-black/5 border-black/5 text-zinc-600"
                 }
               `}
             >
@@ -86,18 +90,21 @@ export default function ProjectCard({ project, lang }: ProjectProps) {
           ))}
         </div>
 
-        <div className={`flex items-center justify-between pt-3 md:pt-4 border-t relative z-20 pointer-events-auto
+        <div
+          className={`flex items-center justify-between pt-3 md:pt-4 border-t relative z-20 pointer-events-auto
            ${themeColors.border}
-        `}>
+        `}
+        >
           {project.demo_url && (
             <a
               href={project.demo_url}
               target="_blank"
               rel="noreferrer"
               className={`text-[10px] md:text-xs font-bold flex items-center gap-1.5 px-2.5 py-1 md:px-3 md:py-1.5 rounded-full transition-all cursor-pointer
-                ${isDarkMode 
-                  ? "text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 hover:text-emerald-300" 
-                  : "text-emerald-700 bg-emerald-100 hover:bg-emerald-200" // لون أغمق للوضع الفاتح
+                ${
+                  isDarkMode
+                    ? "text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20 hover:text-emerald-300"
+                    : "text-emerald-700 bg-emerald-100 hover:bg-emerald-200"
                 }
               `}
             >

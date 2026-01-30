@@ -7,10 +7,10 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial, Float, Sparkles } from "@react-three/drei";
 import { motion } from "framer-motion";
 import { FaPaperPlane, FaGithub, FaLinkedin } from "react-icons/fa";
-import * as THREE from 'three';
+import * as THREE from "three";
 
 function Stars(props: any) {
-const ref = useRef<THREE.Points>(null!);
+  const ref = useRef<THREE.Points>(null!);
   const positions = useMemo(() => {
     const count = 5000;
     const positions = new Float32Array(count * 3);

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/unsupported-syntax */
 "use client";
 import React, { useEffect, useRef } from "react";
 
@@ -119,7 +120,7 @@ export default function WaterRippleEffect() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 pointer-events-none z-[9999]"
+      className="fixed inset-0 pointer-events-none z-9999"
     />
   );
 }
