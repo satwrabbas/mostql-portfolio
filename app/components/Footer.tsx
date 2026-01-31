@@ -16,12 +16,16 @@ export default function Footer() {
       sub: "تواصل معي فوراً لنناقش التفاصيل.",
       rights: "جميع الحقوق محفوظة.",
       available: "متاح للعمل",
+      contactBtn: "رابط التواصل على منصة مستقل", 
+      please: "?Please" 
     },
     en: {
-      ready: "?Ready to launch your next project",
+      ready: "Ready to launch your next project?",
       sub: "Contact me now to discuss details",
-      rights: ".All rights reserved",
+      rights: "All rights reserved.",
       available: "Available for work",
+      contactBtn: "Contact via Mostaql", 
+      please: "?Please" 
     },
   };
 
@@ -30,21 +34,15 @@ export default function Footer() {
   const getGlowColor = () => {
     if (isDarkMode) {
       switch (colorPalette) {
-        case "slate":
-          return "bg-blue-500/10";
-        case "stone":
-          return "bg-orange-500/10";
-        default:
-          return "bg-zinc-500/10";
+        case "slate": return "bg-blue-500/10";
+        case "stone": return "bg-orange-500/10";
+        default: return "bg-zinc-500/10";
       }
     } else {
       switch (colorPalette) {
-        case "slate":
-          return "bg-blue-400/30";
-        case "stone":
-          return "bg-orange-400/30";
-        default:
-          return "bg-zinc-400/30";
+        case "slate": return "bg-blue-400/30";
+        case "stone": return "bg-orange-400/30";
+        default: return "bg-zinc-400/30";
       }
     }
   };
@@ -54,10 +52,6 @@ export default function Footer() {
       className={`relative pt-16 pb-8 px-6 border-t overflow-hidden transition-all duration-700
       ${themeColors.bg} ${themeColors.border}`}
     >
-      {/* 
-        3. عنصر الإضاءة الخلفية المحدث (Central Glow)
-        تم ضبطه ليكون في المنتصف تماماً مع استخدام getGlowColor
-      */}
       <div
         className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-75 md:w-175 md:h-100 blur-[100px] rounded-full pointer-events-none transition-colors duration-1000
         ${getGlowColor()}`}
@@ -80,18 +74,14 @@ export default function Footer() {
               className={`absolute -right-4 -top-4 text-xs font-bold px-3 py-1 rounded-full shadow-lg rotate-12 animate-bounce
               ${themeColors.accent} ${themeColors.accentText}`}
             >
-              ?Please
+              {txt.please}
             </div>
           </div>
 
-          <h2
-            className={`text-3xl md:text-5xl font-bold mb-4 tracking-tight transition-colors duration-300 ${themeColors.textMain}`}
-          >
+          <h2 className={`text-3xl md:text-5xl font-bold mb-4 tracking-tight transition-colors duration-300 ${themeColors.textMain}`}>
             {txt.ready}
           </h2>
-          <p
-            className={`text-lg mb-8 transition-colors duration-300 ${themeColors.textSub}`}
-          >
+          <p className={`text-lg mb-8 transition-colors duration-300 ${themeColors.textSub}`}>
             {txt.sub}
           </p>
 
@@ -103,13 +93,11 @@ export default function Footer() {
             ${themeColors.accent} ${themeColors.accentText} shadow-black/5`}
           >
             <FaWhatsapp className="text-2xl text-emerald-600" />
-            <span> رابط التواصل على منصة مستقل</span>
+            <span>{txt.contactBtn}</span>
           </a>
         </div>
 
-        <div
-          className={`h-px w-full mb-8 bg-linear-to-r from-transparent via-current to-transparent opacity-20 ${themeColors.textSub}`}
-        ></div>
+        <div className={`h-px w-full mb-8 bg-linear-to-r from-transparent via-current to-transparent opacity-20 ${themeColors.textSub}`}></div>
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-6">
           <div className="flex items-center gap-4">
@@ -121,23 +109,15 @@ export default function Footer() {
                 height={24}
                 className={`w-6 h-6 ${!isDarkMode && "invert"}`}
               />
-              <span
-                className={`font-bold tracking-tighter ${themeColors.textMain}`}
-              >
+              <span className={`font-bold tracking-tighter ${themeColors.textMain}`}>
                 ABCE-S
               </span>
             </div>
-            <div
-              className={`h-4 w-px bg-current opacity-20 ${themeColors.textSub}`}
-            ></div>
+            <div className={`h-4 w-px bg-current opacity-20 ${themeColors.textSub}`}></div>
 
-            <div
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full border ${isDarkMode ? "bg-white/5 border-white/10" : "bg-black/5 border-black/5"}`}
-            >
+            <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full border ${isDarkMode ? "bg-white/5 border-white/10" : "bg-black/5 border-black/5"}`}>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-              <span
-                className={`text-[10px] font-medium ${themeColors.textSub}`}
-              >
+              <span className={`text-[10px] font-medium ${themeColors.textSub}`}>
                 {txt.available}
               </span>
             </div>
